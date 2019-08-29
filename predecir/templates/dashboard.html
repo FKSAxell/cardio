@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block contenido %}
+<span class="login100-form-title p-b-26">
+    Menú
+</span>
+ <div class="container-login100-form-btn">
+        <div class="wrap-login100-form-btn">
+            <div class="login100-form-bgbtn"></div>
+            <a class="login100-form-btn" href="{% url 'presona_new' %}">
+                Ingresar Datos
+            </a>
+
+        </div>
+    </div>
+
+    <div class="container-login100-form-btn">
+        <div class="wrap-login100-form-btn">
+            <div class="login100-form-bgbtn"></div>
+            <a class="login100-form-btn" href="{% url 'consulta' %}">
+                Visualizar Graficas
+            </a>
+
+        </div>
+    </div>
+    <div class="container-login100-form-btn">
+
+            {% if user.is_authenticated %}
+                <a class="btn btn-danger btn-lg pb_btn-pill smoothscroll" href="{% url 'logout' %}">SALIR</a>
+            {% endif %}
+
+
+
+
+    </div>
+
+{% endblock %}

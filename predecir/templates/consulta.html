@@ -1,0 +1,90 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Datos</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'persona/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        p{
+            color: #1b1e21;
+
+        }
+
+        .abs-center {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+        }
+
+        .form {
+            width: 450px;
+        }
+        .abs-center {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+        }
+
+        .form {
+          width: 450px;
+}
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+  <div class="abs-center">
+
+    <form method="POST" action="#" class="border p-3 form">
+        <h2>Gráfica</h2>
+        <div id="sino" ></div>
+        {% csrf_token %}
+      {{ form|crispy  }}
+        <button class="btn-primary" type="submit">
+                Buscar
+        </button>
+    </form>
+  </div>
+</div>
+
+    <!-- JS -->
+    <script src="{% static 'persona/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'persona/js/main.js' %}"></script>
+    <script>
+            new Morris.Donut({
+              // ID of the element in which to draw the chart.
+              element: 'sino',
+              // Chart data records -- each entry in this array corresponds to a point on
+              // the chart.
+              colors: ["#ff2323", "#344af3"],
+
+              data: [
+                {% for item in sino %}
+                    { label: '{% if item.sino == 1 %}Si{% endif %}{% if item.sino == 0 %}No{% endif %}', value: '{{ item.num }}' }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+                  ],
+            resize: true,
+
+
+
+            });
+     </script>
+</body>
+</html>
+

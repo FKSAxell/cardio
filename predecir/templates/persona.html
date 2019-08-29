@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Datos</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'persona/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'persona/css/style.css' %}">
+    <style>
+        p{
+            color: #1b1e21;
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="POST" class="appointment-form" id="appointment-form">
+                <h2>Datos del Paciente</h2>
+                {% csrf_token %}
+                <p style="color: #dc3545">**Todos los datos son Obligatorios</p>
+                <p>Cedula</p>
+                {{ form.cedula  }}
+                <p>Nombre</p>
+                {{ form.nombre  }}
+                <p>Fecha de Nacimiento</p>
+                {{ form.fecha_de_nacimiento  }}
+                <p>Genero</p>
+                {{ form.genero  }}
+                <p>Altura en cm</p>
+                {{ form.altura_en_cm  }}
+                <p>Peso en kg</p>
+                {{ form.peso_en_kg  }}
+                <p>Presión Sanguínea Sistólica</p>
+                {{ form.presión_sanguínea_sistólica  }}
+                <p>Presión Sanguínea Diastólica</p>
+                {{ form.presión_sanguínea_diastolica }}
+                <p>Colesterol</p>
+                {{ form.colesterol  }}
+                <p>Glucosa</p>
+                {{ form.glucosa  }}
+                <p>¿Fuma?</p>
+                {{ form.fuma  }}
+                <p>¿Consume Alcohol?</p>
+                {{ form.consume_alcohol  }}
+                <p>¿Realiza Actividad Física?</p>
+                {{ form.actividad_física  }}
+                <br>
+                <div class="form-submit">
+                    <input type="submit" name="submit" id="submit" class="submit" value="Registrar" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'persona/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'persona/js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Datos</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'persona/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'persona/css/style.css' %}">
+    <style>
+        p{
+            color: #1b1e21;
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="" class="appointment-form" id="appointment-form">
+                {% csrf_token %}
+                <h2>Paciente: {{ nombre }}</h2>
+                <h3>Tiene un {{ porcentaje }} % de probabilidad</h3>
+                <a class="submit" style="text-decoration: none;" href="{% url 'dashboard' %}" role="button">Inicio</a>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'persona/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'persona/js/main.js' %}"></script>
+</body>
+</html>
