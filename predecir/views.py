@@ -34,9 +34,8 @@ def persona_new(request):
             persona.save()
             #consulta = Persona.objects.filter(cedula=persona.cedula)
             nombre = persona.nombre
-            return render(request, "resultado.html",
-                         {'n': n, 'porcentaje': round(porcen, 2),
-                          'nombre': nombre})
+            consulta = Persona.objects.filter(cedula=persona.cedula)
+            return render(request, "resultado.html",{'n': n, 'porcentaje': round(porcen, 2),'nombre': nombre,'consulta':consulta})
     else:
         form = PersonaForm()
     return render(request, 'persona.html',{'form': form})
@@ -50,5 +49,12 @@ def consulta(request):
 
     else:
         sino= Persona.objects.values('sino').annotate(num=Count('sino'))
+        total=0
+        for dic in sino:
+            total+=dic["num"]
+        print(total)
+        for dic in sino:
+            dic["num"]=int((dic["num"]*100)/total)
+
         form = ConsultaForm()
-        return render(request, 'consulta.html', {'form': form ,'sino':sino})
+        return render(request, 'consulta.html', {'form': form ,'sino':sino,"total":total})

@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Datos</title>
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <!-- Font Icon -->
     <link rel="stylesheet" href="{% static 'persona/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
 
@@ -18,6 +21,9 @@
             color: #1b1e21;
 
         }
+        h4,h5{
+            color:black;
+        }
     </style>
 </head>
 <body>
@@ -25,10 +31,50 @@
     <div class="main">
 
         <div class="container">
+
+
             <form method="" class="appointment-form" id="appointment-form">
                 {% csrf_token %}
                 <h2>Paciente: {{ nombre }}</h2>
-                <h3>Tiene un {{ porcentaje }} % de probabilidad</h3>
+                <h3>Tiene {{ porcentaje }} % de probabilidad de Riesgo CardioVascular</h3>
+                {% if porcentaje > 50 %}
+
+                    <h4>El algoritmo le ha diagnosticado la presencia de ECV de acuerdo con los datos ingresados. Entre mayor sea la probabilidad, mayor es el riesgo de un ataque cardíaco o accidente cardiovascular.</h4>
+                    <h4>Se recomienda realizar un ecocardiograma.</h4>
+                    <h4>Seguir una dieta con bajo contenido de grasa y bajo contenido de sodio, hacer por lo menos 30 minutos de ejercicio moderado la mayoría de los días de la semana.</h4>
+                    <h4>Evitar hábitos como:</h4>
+
+                    <h4>&nbsp;&nbsp;-Fumar, Consumo de bebidas alcohólicas, consumo de cualquier sustancia estupefaciente(drogas).</h4>
+                    <h4>&nbsp;&nbsp;-Evite el estrés.</h4>
+
+                    <h4>Llevar un control médico mensual.</h4>
+                {% endif %}
+               {% if porcentaje >= 50 and porcentaje <= 30 %}
+                    <h4>El algoritmo le ha diagnosticado ninguna ECV de acuerdo con los datos ingresados.  Sin embargo, podría a futuro padecer de una ECV.</h4>
+                    <h4>Se recomienda realizar un electrocardiograma.</h4>
+
+                    <h4>Evitar hábitos como:</h4>
+
+                    <h4>&nbsp;&nbsp;-Fumar, Consumo de bebidas alcohólicas, consumo de cualquier sustancia estupefaciente(drogas).</h4>
+                    <h4>&nbsp;&nbsp;-Evite el estrés.</h4>
+                    <h4>&nbsp;&nbsp;-Reducir el consumo de comidas chatarras para regular sus niveles de colesterol y triglicéridos.</h4>
+
+                    <h4>Llevar un control médico mensual.</h4>
+                {% endif %}
+                {% if porcentaje < 30 %}
+                    <h4>El algoritmo le ha diagnosticado ninguna ECV de acuerdo con los datos ingresados. Para evitar la presencia de una ECV.</h4>
+
+
+                    <h4>Se recomienda evitar hábitos como: </h4>
+
+                    <h4>&nbsp;&nbsp;-Fumar, Consumo de bebidas alcohólicas, consumo de cualquier sustancia estupefaciente(drogas).</h4>
+                    <h4>&nbsp;&nbsp;-Evite el estrés.</h4>
+                    <h4>&nbsp;&nbsp;-Controlar el consumo de comidas chatarras para mantener sus niveles de colesterol y triglicéridos.</h4>
+
+                {% endif %}
+
+                <div id="resultado" ></div>
+                <br>
                 <a class="submit" style="text-decoration: none;" href="{% url 'dashboard' %}" role="button">Inicio</a>
             </form>
         </div>
@@ -38,5 +84,31 @@
     <!-- JS -->
     <script src="{% static 'persona/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'persona/js/main.js' %}"></script>
+  <script>
+        new Morris.Line({
+          // ID of the element in which to draw the chart.
+          element: 'resultado',
+          // Chart data records -- each entry in this array corresponds to a point on
+          // the chart.
+          data: [
+
+            {% for item in consulta %}
+                { year: '{{ item.date|date:"P d/m/Y" }}', value: '{{ item.porcentaje }}' }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+              ],
+          // The name of the data record attribute that contains x-values.
+          xkey: 'year',
+          // A list of names of data record attributes that contain y-values.
+          ykeys: ['value'],
+          // Labels for the ykeys -- will be displayed when you hover over the
+          // chart.
+          labels: ['Value'],
+          parseTime: false,
+          hideHover: 'auto',
+          resize: true,
+            labelColor: '#FFFFFF'
+
+        });
+    </script>
 </body>
 </html>
